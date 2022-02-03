@@ -2,13 +2,10 @@ import {
     Column, 
     CreateDateColumn,
     Entity,
-    JoinColumn,
     ObjectID, 
     ObjectIdColumn, 
-    OneToOne,
     UpdateDateColumn 
 } from "typeorm";
-import { HitsQuestions } from "../../../hitsQuestions/typeorm/entities/Hits";
 
 @Entity()
 export class User {
@@ -24,8 +21,8 @@ export class User {
     @Column()
     password: string;
 
-    @OneToOne(() => HitsQuestions, hitQuestion => hitQuestion.userId)
-    hitQuestion: HitsQuestions;
+    @Column()
+    avatar: string;
     
     @CreateDateColumn({ default: Date.now() })
     createdAt: Date;

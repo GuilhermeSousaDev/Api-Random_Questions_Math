@@ -7,7 +7,6 @@ import {
     OneToOne, 
     UpdateDateColumn 
 } from "typeorm";
-import { User } from "../../../users/typeorm/entities/User";
 
 interface IUser {
     id: string;
@@ -27,9 +26,6 @@ export class HitsQuestions {
 
     @Column()
     hitsVelmedia: number;
-
-    @OneToOne(() => User, user => user.hitQuestion)
-    userId: User;
 
     @Column()
     user: IUser;

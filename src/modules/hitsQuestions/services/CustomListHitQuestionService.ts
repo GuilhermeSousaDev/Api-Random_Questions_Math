@@ -25,8 +25,6 @@ export default class CustomListHitQuestionService {
 
         const [, hitQuestionDataQuantity] = await hitsQuestionRepository.findAndCount()
 
-        console.log(hitQuestionDataQuantity);
-
         let response: IResponse = {
             hitsQuestions: hitsQuestions,
         }

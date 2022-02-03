@@ -33,7 +33,7 @@ export class HitsQuestionRepository extends Repository<HitsQuestions> {
                 hitsVelmedia: "DESC"
             },
             take: limit,
-            skip: offset
+            skip: offset,
         })
 
         return hitsQuestions;

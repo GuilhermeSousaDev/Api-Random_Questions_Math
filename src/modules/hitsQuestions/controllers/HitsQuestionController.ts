@@ -34,8 +34,7 @@ export default class HitsQuestionController {
             const incrementOrCreate = new IncrementHitsQuestionService();
 
             const userHitQuestion = await incrementOrCreate.execute({ 
-                user, 
-                userId,
+                user,
                 hitsBhaskara, 
                 hitsPitagoras,
                 hitsVelmedia

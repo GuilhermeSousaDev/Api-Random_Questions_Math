@@ -5,17 +5,7 @@ export default class TopAllHitQuestionsService {
     public async execute() {
         const hitQuestionRepository = getMongoRepository(HitsQuestions);
 
-        const listHitQuestions = await hitQuestionRepository.find({
-            select: [
-                'id', 
-                'user', 
-                'hitsBhaskara',
-                'hitsPitagoras',
-                'hitsVelmedia',
-                'createdAt', 
-                'updatedAt'
-            ], 
-        });
+        const listHitQuestions = await hitQuestionRepository.find();
 
         const hitQuestions = listHitQuestions.map(({ 
             id, 

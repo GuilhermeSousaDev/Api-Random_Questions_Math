@@ -1,5 +1,4 @@
 import { getCustomRepository } from "typeorm";
-import { UserRepository } from "../../users/typeorm/repositories/UserEntity";
 import { HitsQuestions } from "../typeorm/entities/Hits";
 import { HitsQuestionRepository } from "../typeorm/repositories/HitsQuestionRepository";
 

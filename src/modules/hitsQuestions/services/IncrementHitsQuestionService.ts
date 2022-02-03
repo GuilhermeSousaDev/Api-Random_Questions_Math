@@ -1,5 +1,4 @@
 import { getCustomRepository } from "typeorm";
-import { User } from "../../users/typeorm/entities/User";
 import { HitsQuestions } from "../typeorm/entities/Hits";
 import { HitsQuestionRepository } from "../typeorm/repositories/HitsQuestionRepository";
 
@@ -8,7 +7,6 @@ interface IRequest {
         id: string;
         name: string;
     };
-    userId: string;
     hitsBhaskara: number;
     hitsPitagoras: number;
     hitsVelmedia: number;
@@ -17,7 +15,6 @@ interface IRequest {
 export default class IncrementHitsQuestionService {
     public async execute({ 
         user, 
-        userId,
         hitsBhaskara, 
         hitsPitagoras,
         hitsVelmedia
@@ -30,7 +27,6 @@ export default class IncrementHitsQuestionService {
         if(!userHitsQuestion) {
             const newUserHitQuestion = hitsQuestionRepository.create({ 
                 user, 
-                userId,
                 hitsBhaskara, 
                 hitsPitagoras,
                 hitsVelmedia

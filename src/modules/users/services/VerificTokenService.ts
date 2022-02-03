@@ -12,7 +12,7 @@ export default class VerificTokenService {
 
         return {
             tokenVerified,
-            token
+            token,
         };
     }
 }
