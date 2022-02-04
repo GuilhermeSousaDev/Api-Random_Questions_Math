@@ -1,6 +1,6 @@
 import AppError from "../../../shared/errors/AppError";
 import { getCustomRepository } from "typeorm";
-import { HitsQuestionRepository } from "../typeorm/repositories/HitsQuestionRepository";
+import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
 
 export default class DeleteHitQuestion {
     public async execute(id: string): Promise<void> {

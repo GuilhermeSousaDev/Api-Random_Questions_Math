@@ -1,5 +1,5 @@
 import { getMongoRepository } from "typeorm";
-import { HitsQuestions } from "../typeorm/entities/Hits";
+import { HitsQuestions } from "../infra/typeorm/entities/Hits";
 
 export default class TopAllHitQuestionsService {
     public async execute() {

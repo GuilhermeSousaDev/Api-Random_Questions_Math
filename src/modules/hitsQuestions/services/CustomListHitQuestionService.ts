@@ -1,7 +1,7 @@
 import AppError from "../../../shared/errors/AppError";
 import { getCustomRepository } from "typeorm";
-import { HitsQuestionRepository } from "../typeorm/repositories/HitsQuestionRepository";
-import { HitsQuestions } from "../typeorm/entities/Hits";
+import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
+import { HitsQuestions } from "../infra/typeorm/entities/Hits";
 
 interface IRequest {
     offset: number,

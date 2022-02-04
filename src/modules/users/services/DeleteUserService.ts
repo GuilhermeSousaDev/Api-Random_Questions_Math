@@ -1,6 +1,6 @@
 import AppError from "../../../shared/errors/AppError"; 
 import { getCustomRepository } from "typeorm";
-import { UserRepository } from "../typeorm/repositories/UserEntity";
+import { UserRepository } from "../infra/typeorm/repositories/UserEntity";
 
 export default class DeleteUserService {
     public async execute(id: string): Promise<void> {

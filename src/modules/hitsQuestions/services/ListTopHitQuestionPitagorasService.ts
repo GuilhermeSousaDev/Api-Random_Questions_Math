@@ -1,6 +1,6 @@
 import { getCustomRepository } from "typeorm";
-import { HitsQuestions } from "../typeorm/entities/Hits";
-import { HitsQuestionRepository } from "../typeorm/repositories/HitsQuestionRepository";
+import { HitsQuestions } from "../infra/typeorm/entities/Hits";
+import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
 
 export class ListTopHitQuestionPitagorasService {
     public async execute(): Promise<HitsQuestions[]> {
