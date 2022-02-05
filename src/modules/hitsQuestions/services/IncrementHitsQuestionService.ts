@@ -1,16 +1,7 @@
 import { getCustomRepository } from "typeorm";
-import { HitsQuestions } from "../infra/typeorm/entities/Hits";
+import { ICreateHits } from "../domain/models/ICreateHits";
+import { IHits } from "../domain/models/IHits";
 import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
-
-interface IRequest {
-    user: {
-        id: string;
-        name: string;
-    };
-    hitsBhaskara: number;
-    hitsPitagoras: number;
-    hitsVelmedia: number;
-}
 
 export default class IncrementHitsQuestionService {
     public async execute({ 
@@ -18,7 +9,7 @@ export default class IncrementHitsQuestionService {
         hitsBhaskara, 
         hitsPitagoras,
         hitsVelmedia
-    }: IRequest): Promise<HitsQuestions> {
+    }: ICreateHits): Promise<IHits> {
         
         const hitsQuestionRepository = getCustomRepository(HitsQuestionRepository);
 

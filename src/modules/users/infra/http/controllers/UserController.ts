@@ -3,11 +3,12 @@ import CreateUserService from "../../../services/CreateUserService";
 import DeleteUserService from "../../../services/DeleteUserService";
 import ListUsersService from "../../../services/ListUsersService";
 import ShowUserService from "../../../services/ShowUserService";
+import { container } from 'tsyringe';
 
 export default class UserController {
 
     public async index(req: Request, res: Response): Promise<Response> {        
-        const listUser = new ListUsersService();
+        const listUser = container.resolve(ListUsersService);
 
         const user = await listUser.execute();
 
@@ -17,7 +18,7 @@ export default class UserController {
     public async show(req: Request, res: Response): Promise<Response> {   
         const { id } = req.params
         
-        const showUser = new ShowUserService();
+        const showUser = container.resolve(ShowUserService);
 
         const user = await showUser.execute(id);
 
@@ -28,7 +29,7 @@ export default class UserController {
         try {
             const { name, email, password } = req.body
         
-            const createUser = new CreateUserService();
+            const createUser = container.resolve(CreateUserService);
 
             const user = await createUser.execute({ name, email, password });
 
@@ -41,7 +42,7 @@ export default class UserController {
     public async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params
         
-        const deleteUser = new DeleteUserService();
+        const deleteUser = container.resolve(DeleteUserService);
 
         await deleteUser.execute(id);
 

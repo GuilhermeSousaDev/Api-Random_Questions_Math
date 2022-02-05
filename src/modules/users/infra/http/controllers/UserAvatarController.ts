@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UpdateAvatarService from "../../../services/UpdateAvatarService";
+import { container } from 'tsyringe';
 
 export default class UserAvatarController {
     public async update(req: Request, res: Response): Promise<Response> {
@@ -7,7 +8,7 @@ export default class UserAvatarController {
         const filename = req.file.originalname;
         const buffer = req.file.buffer;
 
-        const updateAvatarService = new UpdateAvatarService();
+        const updateAvatarService = container.resolve(UpdateAvatarService);
 
         const user = await updateAvatarService.execute({ 
             id, 

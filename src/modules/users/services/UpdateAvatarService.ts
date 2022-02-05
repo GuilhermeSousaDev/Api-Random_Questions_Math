@@ -1,8 +1,8 @@
 import fs from 'fs';
 import crypto from 'crypto';
-import { getCustomRepository } from "typeorm";
-import { User } from "../infra/typeorm/entities/User";
-import { UserRepository } from "../infra/typeorm/repositories/UserEntity";
+import { IUser } from '../domain/models/IUser';
+import { injectable, inject } from 'tsyringe';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 interface IRequest {
     id: string
@@ -12,11 +12,14 @@ interface IRequest {
     }
 }
 
-export default class UpdateAvatarService {
-    public async execute({ id, avatar }: IRequest): Promise<User> {
-        const userRepository = getCustomRepository(UserRepository);
-
-        const user = await userRepository.findOne(id);
+@injectable()
+export default class UpdateUserAvatarService {
+    constructor(
+        @inject('userRepository')
+        private userRepository: IUserRepository
+    ) {}
+    public async execute({ id, avatar }: IRequest): Promise<IUser> {
+        const user = await this.userRepository.findById(id);
 
         if(user.avatar) {
             const fileExists = fs.statSync(`uploads/${user.avatar}`);
@@ -34,7 +37,7 @@ export default class UpdateAvatarService {
 
         user.avatar = filenameHash;
 
-        await userRepository.save(user);
+        await this.userRepository.save(user);
 
         return user;
     }

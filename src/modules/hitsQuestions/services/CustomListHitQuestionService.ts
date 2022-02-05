@@ -1,7 +1,7 @@
 import AppError from "../../../shared/errors/AppError";
 import { getCustomRepository } from "typeorm";
-import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
-import { HitsQuestions } from "../infra/typeorm/entities/Hits";
+import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository"
+import { IHits } from "../domain/models/IHits";
 
 interface IRequest {
     offset: number,
@@ -9,7 +9,7 @@ interface IRequest {
 }
 
 interface IResponse {
-    hitsQuestions: HitsQuestions[];
+    hitsQuestions: IHits[];
     next?: string;
     prev?: string;
 }

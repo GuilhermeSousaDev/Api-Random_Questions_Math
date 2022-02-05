@@ -1,26 +1,21 @@
 import AppError from "../../../shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import { User } from "../infra/typeorm/entities/User";
-import { UserRepository } from "../infra/typeorm/repositories/UserEntity";
-import { compare, hash } from 'bcryptjs';
-import { sign } from "jsonwebtoken";
 import auth from "../../../config/auth";
+import { compare } from 'bcryptjs';
+import { sign } from "jsonwebtoken";
+import { ICreateSession } from "../domain/models/ICreateSession";
+import { IPayload } from "../domain/models/IPayload";
+import { IUserRepository } from "../domain/repositories/IUserRepository";
+import { injectable, inject } from 'tsyringe';
 
-interface IRequest {
-    email: string;
-    password: string;
-}
-
-interface IPayload {
-    user: User;
-    token: string;
-}
-
+@injectable()
 export default class CreateSessionService {
-    public async execute({ email, password }: IRequest): Promise<IPayload> {
-        const userRepository = getCustomRepository(UserRepository);
+    constructor(
+        @inject('userRepository')
+        private userRepository: IUserRepository
+    ) {}
 
-        const user = await userRepository.findByEmail(email);
+    public async execute({ email, password }: ICreateSession): Promise<IPayload> {
+        const user = await this.userRepository.findByEmail(email);
 
         if(!user) {
             throw new AppError('User not found');

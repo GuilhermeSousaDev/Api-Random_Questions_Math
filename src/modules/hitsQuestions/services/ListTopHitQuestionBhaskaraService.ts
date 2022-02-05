@@ -1,10 +1,10 @@
 import { getCustomRepository } from "typeorm";
-import { HitsQuestions } from "../infra/typeorm/entities/Hits";
+import { IHits } from "../domain/models/IHits";
 import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
 
 
 export class ListTopHitQuestionBhaskaraService {
-    public async execute(): Promise<HitsQuestions[]> {
+    public async execute(): Promise<IHits[]> {
         const hitQuestionRepository = getCustomRepository(HitsQuestionRepository);
         
         const topHitQuestion = await hitQuestionRepository.findTopBhaskara();

@@ -4,7 +4,6 @@ import {
     Entity,
     ObjectID, 
     ObjectIdColumn, 
-    OneToOne, 
     UpdateDateColumn 
 } from "typeorm";
 

@@ -1,14 +1,14 @@
-import { EntityRepository, getCustomRepository, Repository } from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
+import { IHits } from "../../../domain/models/IHits";
+import { IPaginationHits } from "../../../domain/models/IPaginationHits";
+import { IHitsQuestionsRepository } from "../../../domain/repositories/IHitsQuestionRepository";
 import { HitsQuestions } from "../entities/Hits";
 
-interface IQuery {
-    offset: number,
-    limit: number;
-}
-
 @EntityRepository(HitsQuestions)
-export class HitsQuestionRepository extends Repository<HitsQuestions> {
-    public async findUserById(userId: string): Promise<HitsQuestions> {
+export class HitsQuestionRepository 
+    extends Repository<HitsQuestions>
+    implements IHitsQuestionsRepository {
+    public async findUserById(userId: string): Promise<IHits> {
         const userHitsQuestion = await this.findOne({ 
             where: { userId },
         });
@@ -16,7 +16,7 @@ export class HitsQuestionRepository extends Repository<HitsQuestions> {
         return userHitsQuestion;
     }
 
-    public async findById(id: string): Promise<HitsQuestions> {
+    public async findById(id: string): Promise<IHits> {
         const userHitsQuestion = await this.findOne(id);
 
         return userHitsQuestion;
@@ -25,7 +25,7 @@ export class HitsQuestionRepository extends Repository<HitsQuestions> {
     public async findWithOffsetAndLimit({ 
         limit, 
         offset 
-    }: IQuery): Promise<HitsQuestions[]> {
+    }: IPaginationHits): Promise<IHits[]> {
         const hitsQuestions = await this.find({ 
             order: {
                 hitsBhaskara: "DESC",
@@ -39,7 +39,7 @@ export class HitsQuestionRepository extends Repository<HitsQuestions> {
         return hitsQuestions;
     }
 
-    public async findTopBhaskara(): Promise<HitsQuestions[]> {
+    public async findTopBhaskara(): Promise<IHits[]> {
         const topHitQuestionBhaskara = await this.find({ 
             select: ['id', 'user', 'createdAt', 'updatedAt', 'hitsBhaskara'],
             order: {
@@ -51,7 +51,7 @@ export class HitsQuestionRepository extends Repository<HitsQuestions> {
         return topHitQuestionBhaskara;
     }
 
-    public async findTopPitagoras(): Promise<HitsQuestions[]> {
+    public async findTopPitagoras(): Promise<IHits[]> {
         const topHitQuestionPitagoras = await this.find({ 
             select: ['id', 'user', 'createdAt', 'updatedAt', 'hitsPitagoras'],
             order: {
@@ -63,7 +63,7 @@ export class HitsQuestionRepository extends Repository<HitsQuestions> {
         return topHitQuestionPitagoras;
     }
 
-    public async findTopVelmedia(): Promise<HitsQuestions[]> {
+    public async findTopVelmedia(): Promise<IHits[]> {
         const topHitQuestionVelmedia = await this.find({ 
             select: ['id', 'user', 'createdAt', 'updatedAt', 'hitsVelmedia'],
             order: {

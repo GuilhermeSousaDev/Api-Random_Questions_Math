@@ -8,6 +8,7 @@ import { errors } from 'celebrate';
 import AppError from '../../errors/AppError';
 import router from './routes/index.routes';
 import '../typeorm/connection';
+import '../../container';
 
 class App {
     app: express.Application;
