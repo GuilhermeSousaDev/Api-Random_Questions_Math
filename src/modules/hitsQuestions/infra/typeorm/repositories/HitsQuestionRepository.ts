@@ -5,9 +5,7 @@ import { IHitsQuestionsRepository } from "../../../domain/repositories/IHitsQues
 import { HitsQuestions } from "../entities/Hits";
 
 @EntityRepository(HitsQuestions)
-export class HitsQuestionRepository 
-    extends Repository<HitsQuestions>
-    implements IHitsQuestionsRepository {
+export class HitsQuestionRepository implements IHitsQuestionsRepository {
     public async findUserById(userId: string): Promise<IHits> {
         const userHitsQuestion = await this.findOne({ 
             where: { userId },
