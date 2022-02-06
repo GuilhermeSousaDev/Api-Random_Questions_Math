@@ -1,13 +1,16 @@
-import { getCustomRepository } from "typeorm";
 import { IHits } from "../domain/models/IHits";
-import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
+import { inject, injectable } from "tsyringe";
+import { IHitsQuestionsRepository } from "../domain/repositories/IHitsQuestionRepository";
 
+@injectable()
+export default class ListTopHitQuestionBhaskaraService {
+    constructor(
+        @inject('hitsQuestionRepository')
+        private hitsQuestionRepository: IHitsQuestionsRepository
+    ) {}
 
-export class ListTopHitQuestionBhaskaraService {
     public async execute(): Promise<IHits[]> {
-        const hitQuestionRepository = getCustomRepository(HitsQuestionRepository);
-        
-        const topHitQuestion = await hitQuestionRepository.findTopBhaskara();
+        const topHitQuestion = await this.hitsQuestionRepository.findTopBhaskara();
 
         return topHitQuestion
     }

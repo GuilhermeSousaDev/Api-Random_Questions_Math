@@ -1,12 +1,16 @@
-import { getMongoRepository } from "typeorm";
+import { inject, injectable } from "tsyringe";
 import { IHits } from "../domain/models/IHits";
-import { HitsQuestions } from "../infra/typeorm/entities/Hits";
+import { IHitsQuestionsRepository } from "../domain/repositories/IHitsQuestionRepository";
 
+@injectable()
 export default class ListHitQuestionService {
-    public async execute(): Promise<IHits[]> {
-        const hitsQuestionRepository = getMongoRepository(HitsQuestions);
+    constructor(
+        @inject('hitsQuestionRepository')
+        private hitsQuestionRepository: IHitsQuestionsRepository
+    ) {}
 
-        const hitsQuestions = await hitsQuestionRepository.find();
+    public async execute(): Promise<IHits[]> {
+        const hitsQuestions = await this.hitsQuestionRepository.find();
         
         return hitsQuestions;
     }

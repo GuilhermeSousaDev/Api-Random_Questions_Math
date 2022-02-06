@@ -1,27 +1,16 @@
-import { getMongoRepository } from "typeorm";
-import { HitsQuestions } from "../infra/typeorm/entities/Hits";
+import { inject, injectable } from "tsyringe";
+import { IFindAllHits } from "../domain/models/IFindAllHits";
+import { IHitsQuestionsRepository } from "../domain/repositories/IHitsQuestionRepository";
 
+@injectable()
 export default class TopAllHitQuestionsService {
-    public async execute() {
-        const hitQuestionRepository = getMongoRepository(HitsQuestions);
+    constructor(
+        @inject('hitsQuestionRepository')
+        private hitsQuestionRepository: IHitsQuestionsRepository
+    ) {}
 
-        const listHitQuestions = await hitQuestionRepository.find();
-
-        const hitQuestions = listHitQuestions.map(({ 
-            id, 
-            user,
-            hitsBhaskara, 
-            hitsPitagoras, 
-            hitsVelmedia,
-            createdAt, 
-        }) => ({
-            id, 
-            user: user.name,
-            userId: user.id,
-            hits: hitsBhaskara + hitsPitagoras + hitsVelmedia,
-            createdAt,
-        }))
-            .sort((a, b) => b.hits - a.hits);
+    public async execute(): Promise<IFindAllHits[]> {
+        const hitQuestions = this.hitsQuestionRepository.findAll();
 
         return hitQuestions;
     }

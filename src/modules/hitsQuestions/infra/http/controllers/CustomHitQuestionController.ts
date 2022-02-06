@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import CustomListHitQuestionService from "../../../services/CustomListHitQuestionService";
 
 export default class CustomHitsQuestionController {
@@ -6,7 +7,7 @@ export default class CustomHitsQuestionController {
         const limit = Number(req.query.limit);
         const offset = Number(req.query.offset);
 
-        const customListHitQuestionService = new CustomListHitQuestionService();
+        const customListHitQuestionService = container.resolve(CustomListHitQuestionService);
 
         const hitsQuestions = await customListHitQuestionService.execute({ 
             limit, 

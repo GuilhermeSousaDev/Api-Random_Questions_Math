@@ -1,14 +1,17 @@
 import AppError from "../../../shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
-import { HitsQuestions } from "../infra/typeorm/entities/Hits"
 import { IHits } from "../domain/models/IHits";
+import { inject, injectable } from "tsyringe";
+import { IHitsQuestionsRepository } from "../domain/repositories/IHitsQuestionRepository";
 
+@injectable()
 export default class ShowHitQuestionService {
-    public async execute(user_id: string): Promise<IHits> {
-        const hitsQuestionRepository = getCustomRepository(HitsQuestionRepository);
+    constructor(
+        @inject('hitsQuestionRepository')
+        private hitsQuestionRepository: IHitsQuestionsRepository
+    ) {}
 
-        const hitQuestion = await hitsQuestionRepository.findUserById(user_id);
+    public async execute(user_id: string): Promise<IHits> {
+        const hitQuestion = await this.hitsQuestionRepository.findUserById(user_id);
 
         if(!hitQuestion) {
             throw new AppError('This hit profile does not exist')

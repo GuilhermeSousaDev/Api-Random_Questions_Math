@@ -1,29 +1,31 @@
-import { getCustomRepository } from "typeorm";
 import { ICreateHits } from "../domain/models/ICreateHits";
 import { IHits } from "../domain/models/IHits";
-import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
+import { inject, injectable } from "tsyringe";
+import { IHitsQuestionsRepository } from "../domain/repositories/IHitsQuestionRepository";
 
+@injectable()
 export default class IncrementHitsQuestionService {
+    constructor(
+        @inject('hitsQuestionRepository')
+        private hitsQuestionRepository: IHitsQuestionsRepository
+    ) {}
     public async execute({ 
         user, 
         hitsBhaskara, 
         hitsPitagoras,
         hitsVelmedia
     }: ICreateHits): Promise<IHits> {
-        
-        const hitsQuestionRepository = getCustomRepository(HitsQuestionRepository);
-
-        const userHitsQuestion = await hitsQuestionRepository.findUserById(user.id);
+        const userHitsQuestion = await this.hitsQuestionRepository.findUserById(user.id);
 
         if(!userHitsQuestion) {
-            const newUserHitQuestion = hitsQuestionRepository.create({ 
+            const newUserHitQuestion = await this.hitsQuestionRepository.create({ 
                 user, 
                 hitsBhaskara, 
                 hitsPitagoras,
-                hitsVelmedia
-            })
+                hitsVelmedia,
+            });
 
-            await hitsQuestionRepository.save(newUserHitQuestion);
+            await this.hitsQuestionRepository.save(newUserHitQuestion);
 
             return newUserHitQuestion;
         }
@@ -32,7 +34,7 @@ export default class IncrementHitsQuestionService {
         userHitsQuestion.hitsPitagoras += hitsPitagoras;
         userHitsQuestion.hitsVelmedia += hitsVelmedia;
 
-        await hitsQuestionRepository.save(userHitsQuestion);
+        await this.hitsQuestionRepository.save(userHitsQuestion);
 
         return userHitsQuestion;
     }

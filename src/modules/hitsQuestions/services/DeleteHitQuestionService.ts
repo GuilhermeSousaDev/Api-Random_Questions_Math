@@ -1,17 +1,21 @@
 import AppError from "../../../shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository";
+import { inject, injectable } from "tsyringe";
+import { IHitsQuestionsRepository } from "../domain/repositories/IHitsQuestionRepository";
 
-export default class DeleteHitQuestion {
+@injectable()
+export default class DeleteHitQuestionService {
+    constructor(
+        @inject('hitsQuestionRepository')
+        private hitsQuestionRepository: IHitsQuestionsRepository
+    ) {}
+
     public async execute(id: string): Promise<void> {
-        const hitsQuestionRepository = getCustomRepository(HitsQuestionRepository);
-
-        const hitsQuestion = await hitsQuestionRepository.findById(id);
+        const hitsQuestion = await this.hitsQuestionRepository.findById(id);
 
         if(!hitsQuestion) {
-            throw new AppError('User hits not found.')
+            throw new AppError('User hits not found.');
         }
 
-        await hitsQuestionRepository.remove(hitsQuestion);
+        await this.hitsQuestionRepository.remove(hitsQuestion);
     }
 }

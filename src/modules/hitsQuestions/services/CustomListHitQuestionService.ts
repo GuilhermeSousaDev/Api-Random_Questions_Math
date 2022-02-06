@@ -1,7 +1,7 @@
 import AppError from "../../../shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import { HitsQuestionRepository } from "../infra/typeorm/repositories/HitsQuestionRepository"
 import { IHits } from "../domain/models/IHits";
+import { inject, injectable } from "tsyringe";
+import { IHitsQuestionsRepository } from "../domain/repositories/IHitsQuestionRepository";
 
 interface IRequest {
     offset: number,
@@ -14,16 +14,20 @@ interface IResponse {
     prev?: string;
 }
 
+@injectable()
 export default class CustomListHitQuestionService {
-    public async execute({ limit, offset }: IRequest): Promise<IResponse> {
-        const hitsQuestionRepository = getCustomRepository(HitsQuestionRepository);
+    constructor(
+        @inject('hitsQuestionRepository')
+        private hitsQuestionRepository: IHitsQuestionsRepository
+    ) {}
 
-        const hitsQuestions = await hitsQuestionRepository.findWithOffsetAndLimit({
+    public async execute({ limit, offset }: IRequest): Promise<IResponse> {
+        const hitsQuestions = await this.hitsQuestionRepository.findWithOffsetAndLimit({
             limit,
             offset
         })
 
-        const [, hitQuestionDataQuantity] = await hitsQuestionRepository.findAndCount()
+        const [, hitQuestionDataQuantity] = await this.hitsQuestionRepository.findAndCount()
 
         let response: IResponse = {
             hitsQuestions: hitsQuestions,

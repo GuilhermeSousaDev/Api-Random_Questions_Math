@@ -10,7 +10,7 @@ const router = Router();
 
 router.use('/user', userRouter);
 router.use('/question', hitsQuestionRouter);
-router.use('/question/custom', customHitQuestionRouter);
+router.use('/custom', customHitQuestionRouter);
 router.use('/top', topHitQuestionRouter);
 router.use('/token', tokenRouter);
 router.use('/login', sessionRouter);

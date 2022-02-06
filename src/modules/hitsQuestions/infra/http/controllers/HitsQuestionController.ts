@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import DeleteHitQuestion from "../../../services/DeleteHitQuestionService";
 import IncrementHitsQuestionService from "../../../services/IncrementHitsQuestionService";
 import ListHitQuestionService from "../../../services/ListHitQuestionService";
@@ -6,7 +7,7 @@ import ShowHitQuestionService from "../../../services/ShowHitQuestionService";
 
 export default class HitsQuestionController {
     public async index(req: Request, res: Response): Promise<Response> {
-        const listHitQuestionService = new ListHitQuestionService();
+        const listHitQuestionService = container.resolve(ListHitQuestionService);
 
         const hitsQuestions = await listHitQuestionService.execute();
 
@@ -16,7 +17,7 @@ export default class HitsQuestionController {
     public async show(req: Request, res: Response): Promise<Response> {
         const { id } = req.params
 
-        const showHitQuestion = new ShowHitQuestionService();
+        const showHitQuestion = container.resolve(ShowHitQuestionService);
 
         const hitQuestion = await showHitQuestion.execute(id);
 
@@ -31,7 +32,7 @@ export default class HitsQuestionController {
 
             const userId = req.user.id;
             
-            const incrementOrCreate = new IncrementHitsQuestionService();
+            const incrementOrCreate = container.resolve(IncrementHitsQuestionService);
 
             const userHitQuestion = await incrementOrCreate.execute({ 
                 user,
@@ -49,7 +50,7 @@ export default class HitsQuestionController {
     public async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const deleteHitQuestion = new DeleteHitQuestion();
+        const deleteHitQuestion = container.resolve(DeleteHitQuestion);
 
         await deleteHitQuestion.execute(id);
 
