@@ -27,9 +27,11 @@ export default class CreateSessionService {
             throw new AppError('Incorrect Password');
         }
 
-        const { id, name } = user;
+        const { id, name, avatar } = user;
 
-        const token = sign({ id, name }, auth.secret, { expiresIn: auth.expire });
+        const token = sign({ id, name, avatar }, auth.secret, { 
+            expiresIn: auth.expire 
+        });
 
         return {
             user,

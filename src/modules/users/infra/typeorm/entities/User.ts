@@ -21,7 +21,7 @@ export class User {
     @Column()
     password: string;
 
-    @Column()
+    @Column({ default: 'perfil.png' })
     avatar: string;
     
     @CreateDateColumn({ default: Date.now() })

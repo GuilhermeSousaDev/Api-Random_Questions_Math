@@ -6,6 +6,7 @@ import AppError from "../../../errors/AppError";
 interface IToken {
     id: string;
     name: string;
+    avatar: string;
 }
 
 export default function isAuthenticated(req: Request, res: Response, next: NextFunction) {
@@ -18,9 +19,9 @@ export default function isAuthenticated(req: Request, res: Response, next: NextF
     try {
         verify(token, auth.secret);
 
-        const { id, name } = decode(token) as IToken;
+        const { id, name, avatar } = decode(token) as IToken;
 
-        req.user = { id, name }
+        req.user = { id, name, avatar };
 
         next();
 
