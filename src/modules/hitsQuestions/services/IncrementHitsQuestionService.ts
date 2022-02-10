@@ -10,15 +10,17 @@ export default class IncrementHitsQuestionService {
         private hitsQuestionRepository: IHitsQuestionsRepository
     ) {}
     public async execute({ 
-        user, 
+        userId, 
+        user,
         hitsBhaskara, 
         hitsPitagoras,
         hitsVelmedia
     }: ICreateHits): Promise<IHits> {
-        const userHitsQuestion = await this.hitsQuestionRepository.findUserById(user.id);
+        const userHitsQuestion = await this.hitsQuestionRepository.findUserById(userId);
 
         if(!userHitsQuestion) {
             const newUserHitQuestion = await this.hitsQuestionRepository.create({ 
+                userId,
                 user, 
                 hitsBhaskara, 
                 hitsPitagoras,

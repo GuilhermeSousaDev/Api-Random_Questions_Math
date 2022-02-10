@@ -5,6 +5,7 @@ export interface IHits {
     hitsBhaskara: number;
     hitsPitagoras: number;
     hitsVelmedia: number;
+    userId: string;
     user: {
         id: string;
         name: string;
