@@ -15,13 +15,17 @@ export default class HitsQuestionController {
     }
 
     public async show(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params
+        try {
+            const { id } = req.params
 
-        const showHitQuestion = container.resolve(ShowHitQuestionService);
+            const showHitQuestion = container.resolve(ShowHitQuestionService);
 
-        const hitQuestion = await showHitQuestion.execute(id);
+            const hitQuestion = await showHitQuestion.execute(id);
 
-        return res.json(hitQuestion);
+            return res.json(hitQuestion);
+        } catch (error) {
+            return res.json(error.message);
+        }
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -35,6 +39,7 @@ export default class HitsQuestionController {
             const incrementOrCreate = container.resolve(IncrementHitsQuestionService);
 
             const userHitQuestion = await incrementOrCreate.execute({ 
+                userId,
                 user,
                 hitsBhaskara, 
                 hitsPitagoras,

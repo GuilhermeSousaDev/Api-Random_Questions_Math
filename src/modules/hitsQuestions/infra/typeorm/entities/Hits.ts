@@ -29,6 +29,9 @@ export class HitsQuestions {
     @Column()
     user: IUser;
 
+    @Column()
+    userId: string;
+
     @CreateDateColumn({ default: Date.now() })
     createdAt: Date;
 

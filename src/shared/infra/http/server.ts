@@ -4,6 +4,7 @@ import 'express-async-errors';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
+import { limiter } from './middlewares/rateLimiter';
 
 import AppError from '../../errors/AppError';
 import router from './routes/index.routes';
@@ -12,7 +13,7 @@ import '../../container';
 
 class App {
     app: express.Application;
-    port = 8081
+    port = process.env.PORT || 8081
 
     constructor() {
         this.app = express();
@@ -32,19 +33,20 @@ class App {
                 return res.status(error.statusCode).json({
                     status: 'error',
                     message: error.message
-                })
+                });
             }
 
             return res.status(500).json({
                 status: 'error',
                 error: 'Internal server error',
                 message: error.message
-            })
-        })
+            });
+        });
     }
 
     private middlewares() {
         this.app.use(cors());
+        this.app.use(limiter);
     }
 
     private listen() {

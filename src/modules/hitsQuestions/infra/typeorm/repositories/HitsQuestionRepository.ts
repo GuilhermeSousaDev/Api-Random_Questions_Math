@@ -16,13 +16,15 @@ export class HitsQuestionRepository implements IHitsQuestionsRepository {
         hitsBhaskara, 
         hitsPitagoras, 
         hitsVelmedia, 
-        user 
+        user,
+        userId,
     }: ICreateHits): Promise<IHits> {
         const hitsQuestions = this.ormRepository.create({ 
             hitsBhaskara, 
             hitsPitagoras,
             hitsVelmedia,
             user,
+            userId,
         })
 
         return hitsQuestions;
