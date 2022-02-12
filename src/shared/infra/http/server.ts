@@ -13,7 +13,7 @@ import '../../container';
 
 class App {
     app: express.Application;
-    port = 8081
+    port = process.env.PORT || 8081
 
     constructor() {
         this.app = express();
